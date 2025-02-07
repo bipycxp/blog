@@ -5,9 +5,10 @@ import { Button } from './button';
 import { Container } from './container';
 import { useAppContext } from './contexts/appContext';
 import HamburgerSVG from './icons/svgs/HamburgerSVG';
-import AppStoreSVG from './icons/svgs/AppStoreSVG';
 import { PublicationLogo } from './publication-logo';
 import PublicationSidebar from './sidebar';
+import Image from 'next/image';
+import AppStoreIcon from '../public/assets/blog/app-store.svg';
 
 function hasUrl(
 	navbarItem: PublicationNavbarItem,
@@ -104,9 +105,9 @@ export const Header = () => {
 						href="https://apps.apple.com/us/app/neary-ai-notes/id6477550063"
 						target="_blank"
 						rel="noopener"
-						aria-label="Download Neary AI on App Store"
+						aria-label="Download Neary AI Notes from App Store"
 					>
-						<AppStoreSVG />
+						<Image src={AppStoreIcon} width={180} alt="Download Neary AI Notes from App Store" />
 					</a>
 				</div>
 			</Container>
