@@ -1,6 +1,13 @@
 import { AppProps } from 'next/app';
 import { useEffect } from 'react';
+import { Mulish } from 'next/font/google';
 import '../styles/index.css';
+
+const mulish = Mulish({
+	subsets: ['latin'],
+	variable: '--font-mulish',
+	display: 'swap',
+});
 
 export default function MyApp({ Component, pageProps }: AppProps) {
 	useEffect(() => {
@@ -11,5 +18,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 			i.style.height = `${parseInt(newHeight)}px`;
 		};
 	}, []);
-	return <Component {...pageProps} />;
+
+	return (
+		<div className={`${mulish.variable} font-mulish`}>
+			<Component {...pageProps} />
+		</div>
+	);
 }

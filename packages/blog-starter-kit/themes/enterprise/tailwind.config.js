@@ -57,6 +57,9 @@ module.exports = {
 			lineHeight: {
 				tight: 1.2,
 			},
+			fontFamily: {
+				mulish: ['var(--font-mulish)', 'sans-serif'],
+			},
 			fontSize: {
 				'5xl': '2.5rem',
 				'6xl': '2.75rem',
