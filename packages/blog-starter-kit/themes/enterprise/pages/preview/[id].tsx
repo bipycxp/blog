@@ -13,7 +13,7 @@ import {
 	DraftByIdDocument,
 	DraftByIdQuery,
 	DraftByIdQueryVariables,
-	Post,
+	Post as PostSchema,
 	Publication,
 	PublicationByHostDocument,
 	PublicationByHostQuery,
@@ -21,7 +21,7 @@ import {
 } from '../../generated/graphql';
 
 type Props = {
-	post: Post;
+	post: PostSchema;
 	publication: Publication;
 };
 

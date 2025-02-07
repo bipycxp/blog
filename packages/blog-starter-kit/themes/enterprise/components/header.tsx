@@ -5,7 +5,7 @@ import { Button } from './button';
 import { Container } from './container';
 import { useAppContext } from './contexts/appContext';
 import HamburgerSVG from './icons/svgs/HamburgerSVG';
-import AppStoreSVG from './icons/svgs/AppstoreSVG';
+import AppStoreSVG from './icons/svgs/AppStoreSVG';
 import { PublicationLogo } from './publication-logo';
 import PublicationSidebar from './sidebar';
 
