@@ -100,11 +100,14 @@ export const Header = () => {
 					</div>
 				</div>
 				<div className="col-span-2 flex flex-row items-center justify-end gap-5 text-slate-300 lg:col-span-3">
-					<nav className="hidden lg:block">{navList}</nav>
+					<nav className="hidden lg:block">
+						{navList}
+					</nav>
 					<a
 						href="https://apps.apple.com/us/app/neary-ai-notes/id6477550063"
 						target="_blank"
 						rel="noopener"
+						className="hidden lg:block"
 						aria-label="Download Neary AI Notes from App Store"
 					>
 						<Image src={AppStoreIcon} width={180} alt="Download Neary AI Notes from App Store" />
