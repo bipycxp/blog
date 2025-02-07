@@ -5,6 +5,7 @@ import { Button } from './button';
 import { Container } from './container';
 import { useAppContext } from './contexts/appContext';
 import HamburgerSVG from './icons/svgs/HamburgerSVG';
+import AppStoreSVG from './icons/svgs/AppstoreSVG';
 import { PublicationLogo } from './publication-logo';
 import PublicationSidebar from './sidebar';
 
@@ -77,7 +78,7 @@ export const Header = () => {
 	);
 
 	return (
-		<header className="border-b bg-slate-950 py-10 dark:border-neutral-800 dark:bg-neutral-900">
+		<header className="border-b bg-[#385ee4] py-10">
 			<Container className="grid grid-cols-4 gap-5 px-5">
 				<div className="col-span-2 flex flex-1 flex-row items-center gap-2 lg:col-span-1">
 					<div className="lg:hidden">
@@ -99,7 +100,14 @@ export const Header = () => {
 				</div>
 				<div className="col-span-2 flex flex-row items-center justify-end gap-5 text-slate-300 lg:col-span-3">
 					<nav className="hidden lg:block">{navList}</nav>
-					<Button href={baseUrl} as="a" type="primary" label="Book a demo" />
+					<a
+						href="https://apps.apple.com/us/app/neary-ai-notes/id6477550063"
+						target="_blank"
+						rel="noopener"
+						aria-label="Download Neary AI on App Store"
+					>
+						<AppStoreSVG />
+					</a>
 				</div>
 			</Container>
 			<div className="mt-5 flex justify-center lg:hidden">
