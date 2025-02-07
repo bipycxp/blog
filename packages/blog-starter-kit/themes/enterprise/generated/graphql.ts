@@ -86,6 +86,18 @@ export type AddCommentPayload = {
   comment?: Maybe<Comment>;
 };
 
+export type AddContentBlockInput = {
+  content: Scalars['String']['input'];
+  embedId: Scalars['String']['input'];
+  label: Scalars['String']['input'];
+  projectId: Scalars['ID']['input'];
+};
+
+export type AddContentBlockPayload = {
+  __typename?: 'AddContentBlockPayload';
+  project: DocumentationProject;
+};
+
 export type AddCustomMdxComponentInput = {
   code: Scalars['String']['input'];
   componentId: Scalars['String']['input'];
@@ -192,6 +204,20 @@ export type Badge = Node & {
   name: Scalars['String']['output'];
   /** A flag to determine if the badge is hidden. */
   suppressed?: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** Contains information about banner image options of the post. Like URL of the banner image, attribution, etc. */
+export type BannerImageOptionsInput = {
+  /** Information about the banner image attribution. */
+  bannerImageAttribution?: InputMaybe<Scalars['String']['input']>;
+  /** The name of the banner image photographer, used when banner was chosen from unsplash. */
+  bannerImagePhotographer?: InputMaybe<Scalars['String']['input']>;
+  /** The URL of the banner image. */
+  bannerImageURL?: InputMaybe<Scalars['String']['input']>;
+  /** A flag to indicate if the banner attribution is hidden, used when cover was chosen from unsplash. */
+  isBannerAttributionHidden?: InputMaybe<Scalars['Boolean']['input']>;
+  /** A flag to indicate if the banner image is sticked to bottom. */
+  stickBannerToBottom?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -1221,6 +1247,16 @@ export enum DefaultDocsTheme {
   Light = 'LIGHT'
 }
 
+export type DeleteContentBlockInput = {
+  embedId: Scalars['String']['input'];
+  projectId: Scalars['ID']['input'];
+};
+
+export type DeleteContentBlockPayload = {
+  __typename?: 'DeleteContentBlockPayload';
+  project: DocumentationProject;
+};
+
 export type DeleteCustomMdxComponentInput = {
   componentId: Scalars['String']['input'];
   projectId: Scalars['ID']['input'];
@@ -1498,6 +1534,8 @@ export type DocumentationNavbarColumn = Node & {
   items: Array<DocumentationNavbarItem>;
   /** The label of the column. */
   label: Scalars['String']['output'];
+  /** The logo of the column. */
+  logo?: Maybe<Scalars['URL']['output']>;
   /** The date the column was last updated. */
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -1747,6 +1785,18 @@ export type DocumentationProjectAppearanceInput = {
   logoDarkThemeUrl?: InputMaybe<Scalars['String']['input']>;
   logoUrl?: InputMaybe<Scalars['String']['input']>;
   primaryColor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type DocumentationProjectContentBlock = Node & {
+  __typename?: 'DocumentationProjectContentBlock';
+  /** The MDX string of the content block. */
+  content: Scalars['String']['output'];
+  /** embedId, which can be used to embed the content block in the editor. */
+  embedId: Scalars['String']['output'];
+  /** The unique identifier for the content block */
+  id: Scalars['ID']['output'];
+  /** label, can be used to identify the content block from the dropdown in the editor. */
+  label: Scalars['String']['output'];
 };
 
 export type DocumentationProjectCustomComponent = Node & {
@@ -3165,6 +3215,7 @@ export type Mutation = {
   acceptRoleBasedInvite: AcceptRoleBasedInvitePayload;
   /** Adds a comment to a post. */
   addComment: AddCommentPayload;
+  addContentBlock: AddContentBlockPayload;
   addCustomMdxComponent: AddCustomMdxComponentPayload;
   addDocumentationProjectCustomDomain: AddDocumentationProjectCustomDomainPayload;
   /** Adds a post to a series. */
@@ -3193,6 +3244,7 @@ export type Mutation = {
   /** Creates a new series. */
   createSeries: CreateSeriesPayload;
   createWebhook: CreateWebhookPayload;
+  deleteContentBlock: DeleteContentBlockPayload;
   deleteCustomMdxComponent: DeleteCustomMdxComponentPayload;
   /** Deletes a role based invite. */
   deleteRoleBasedInvite: DeleteRoleBasedInvitePayload;
@@ -3302,6 +3354,7 @@ export type Mutation = {
   unsubscribeFromNewsletter: UnsubscribeFromNewsletterPayload;
   /** Updates a comment on a post. */
   updateComment: UpdateCommentPayload;
+  updateContentBlock: UpdateContentBlockPayload;
   updateCustomMdxComponent: UpdateCustomMdxComponentPayload;
   updateDocumentationAppearance: UpdateDocumentationAppearancePayload;
   updateDocumentationGeneralSettings: UpdateDocumentationGeneralSettingsPayload;
@@ -3344,6 +3397,11 @@ export type MutationAcceptRoleBasedInviteArgs = {
 
 export type MutationAddCommentArgs = {
   input: AddCommentInput;
+};
+
+
+export type MutationAddContentBlockArgs = {
+  input: AddContentBlockInput;
 };
 
 
@@ -3434,6 +3492,11 @@ export type MutationCreateSeriesArgs = {
 
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
+};
+
+
+export type MutationDeleteContentBlockArgs = {
+  input: DeleteContentBlockInput;
 };
 
 
@@ -3730,6 +3793,11 @@ export type MutationUnsubscribeFromNewsletterArgs = {
 
 export type MutationUpdateCommentArgs = {
   input: UpdateCommentInput;
+};
+
+
+export type MutationUpdateContentBlockArgs = {
+  input: UpdateContentBlockInput;
 };
 
 
@@ -4157,6 +4225,11 @@ export type Post = Node & {
   /** Returns the user details of the author of the post. */
   author: User;
   /**
+   * The banner image preference of the post. Contains banner image URL and other details.
+   * It is similar to cover image but users can decide to render banner image of single post view.
+   */
+  bannerImage?: Maybe<PostBannerImage>;
+  /**
    * Flag to indicate if the post is bookmarked by the requesting user.
    *
    * Returns `false` if the user is not authenticated.
@@ -4314,6 +4387,19 @@ export type PostBadgesFeature = Feature & {
   items: Array<PostBadge>;
 };
 
+/** Contains information about the banner image of the post. */
+export type PostBannerImage = {
+  __typename?: 'PostBannerImage';
+  /** Provides attribution information for the banner image, if available. */
+  attribution?: Maybe<Scalars['String']['output']>;
+  /** True if the image attribution should be hidden. */
+  isAttributionHidden: Scalars['Boolean']['output'];
+  /** The name of the photographer who captured the banner image. */
+  photographer?: Maybe<Scalars['String']['output']>;
+  /** The URL of the banner image. */
+  url: Scalars['String']['output'];
+};
+
 /**
  * Connection for comments. Contains a list of edges containing nodes.
  * Each node holds a comment.
@@ -4451,9 +4537,18 @@ export type PostPreferences = {
   isDelisted: Scalars['Boolean']['output'];
   /** A flag to indicate if the post is pinned to blog. Pinned post is shown on top of the blog. */
   pinnedToBlog: Scalars['Boolean']['output'];
+  /** A flag to indicate if the banner image is shown below title of the post. Default position of banner is top of title. */
+  stickBannerToBottom: Scalars['Boolean']['output'];
   /** A flag to indicate if the cover image is shown below title of the post. Default position of cover is top of title. */
   stickCoverToBottom: Scalars['Boolean']['output'];
 };
+
+export enum PostSortBy {
+  /** Sorts posts by date published in ascending order. */
+  DatePublishedAsc = 'DATE_PUBLISHED_ASC',
+  /** Sorts posts by date published in descending order. */
+  DatePublishedDesc = 'DATE_PUBLISHED_DESC'
+}
 
 /** Contains the publication's preferences for layout, theme and other personalisations. */
 export type Preferences = {
@@ -5214,6 +5309,10 @@ export type PublicationPostConnectionFilter = {
   deletedOnly?: InputMaybe<Scalars['Boolean']['input']>;
   /** Remove pinned post from the result set. */
   excludePinnedPost?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Tags AND filter. All tags must be present in the post. */
+  requiredTagSlugs?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Tags AND filter. All tags must be present in the post. */
+  requiredTags?: InputMaybe<Array<Scalars['ID']['input']>>;
   /**
    * Filtering by tag slugs and tag IDs will return posts that match either of the filters.
    *
@@ -5354,6 +5453,11 @@ export type PublishDraftPayload = {
 
 /** Contains information about the post to be published. */
 export type PublishPostInput = {
+  /**
+   * Options for the banner image of the post.
+   * It is similar to cover image but users can decide to render banner image of single post view.
+   */
+  bannerImageOptions?: InputMaybe<BannerImageOptionsInput>;
   /** Ids of the co-authors of the post. */
   coAuthors?: InputMaybe<Array<Scalars['ObjectId']['input']>>;
   /** Content of the post in markdown format. */
@@ -5517,6 +5621,7 @@ export type QuerySearchPostsOfPublicationArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   filter: SearchPostsOfPublicationFilter;
   first: Scalars['Int']['input'];
+  sortBy?: InputMaybe<PostSortBy>;
 };
 
 
@@ -6028,6 +6133,8 @@ export type SearchPostsOfPublicationFilter = {
   publicationId: Scalars['ObjectId']['input'];
   /** The query to be searched in post. */
   query?: InputMaybe<Scalars['String']['input']>;
+  /** Tags AND filter. All tags must be present in the post. */
+  requiredTagsIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   /** An array of tag Ids to filter the posts. */
   tagIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   /** Filter based on time range. */
@@ -6480,6 +6587,18 @@ export type UpdateCommentPayload = {
   comment?: Maybe<Comment>;
 };
 
+export type UpdateContentBlockInput = {
+  content: Scalars['String']['input'];
+  embedId: Scalars['String']['input'];
+  label: Scalars['String']['input'];
+  projectId: Scalars['ID']['input'];
+};
+
+export type UpdateContentBlockPayload = {
+  __typename?: 'UpdateContentBlockPayload';
+  project: DocumentationProject;
+};
+
 export type UpdateCustomMdxComponentInput = {
   code: Scalars['String']['input'];
   componentId: Scalars['String']['input'];
@@ -6610,6 +6729,8 @@ export type UpdateDocumentationSectionPayload = {
 };
 
 export type UpdatePostInput = {
+  /** Options for the banner image of the post. */
+  bannerImageOptions?: InputMaybe<BannerImageOptionsInput>;
   /**
    * Update co-authors of the post.
    * Must be a member of the publication.
